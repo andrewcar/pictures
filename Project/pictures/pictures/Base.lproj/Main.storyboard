@@ -20,7 +20,7 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="feed" id="BYZ-38-t0r" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="cameraViewController" id="BYZ-38-t0r" customClass="ViewController" customModule="pictures" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -40,7 +40,7 @@
         <!--View Controller-->
         <scene sceneID="4Qp-OP-TjG">
             <objects>
-                <viewController storyboardIdentifier="camera" id="1gE-8E-LIw" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="feedViewController" id="1gE-8E-LIw" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="9Y8-9x-3Lb"/>
                         <viewControllerLayoutGuide type="bottom" id="Icd-M8-6Iw"/>
