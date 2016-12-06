@@ -7,8 +7,11 @@
 //
 
 import UIKit
+import AVFoundation
 
-class PageViewController: UIPageViewController {
+class ViewController: UIPageViewController {
+    
+    @IBOutlet weak var imageView: UIImageView!
     
     private(set) lazy var orderedViewControllers: [UIViewController] = {
         return [self.newViewController(name: "camera"), self.newViewController(name: "feed")]
@@ -17,7 +20,7 @@ class PageViewController: UIPageViewController {
     private func newViewController(name: String) -> UIViewController {
         return UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "\(name)ViewController")
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -28,12 +31,22 @@ class PageViewController: UIPageViewController {
             setViewControllers([firstViewController], direction: .forward, animated: true, completion: nil)
         }
     }
+    
+    @IBAction func cameraTapped(_ sender: UIButton) {
+        
+    }
+    
+    @IBAction func storageTapped(_ sender: UIButton) {
+    }
+    
+    @IBAction func postTapped(_ sender: UIButton) {
+    }
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
 
     /*
     // MARK: - Navigation
@@ -49,7 +62,7 @@ class PageViewController: UIPageViewController {
 
 // MARK: UIPageViewControllerDataSource
 
-extension PageViewController: UIPageViewControllerDataSource {
+extension ViewController: UIPageViewControllerDataSource {
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         
         guard let viewControllerIndex = orderedViewControllers.index(of: viewController) else {
@@ -90,5 +103,11 @@ extension PageViewController: UIPageViewControllerDataSource {
         }
         
         return orderedViewControllers[nextIndex]
+    }
+}
+
+extension ViewController: AVCapturePhotoCaptureDelegate {
+    func capture(_ captureOutput: AVCapturePhotoOutput, didCapturePhotoForResolvedSettings resolvedSettings: AVCaptureResolvedPhotoSettings) {
+//        self.capturedImageView.image = capture
     }
 }
