@@ -27,10 +27,6 @@ class CameraViewController: UIViewController {
         }
     }
     
-    @IBAction func storageTapped(_ sender: UIButton) {
-        
-    }
-    
     @IBAction func postTapped(_ sender: UIButton) {
         let imageData = UIImageJPEGRepresentation(imageView.image!, 0.6)
         let compressedJPEGImage = UIImage(data: imageData!)
