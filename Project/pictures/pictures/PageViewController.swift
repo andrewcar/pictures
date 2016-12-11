@@ -7,41 +7,29 @@
 //
 
 import UIKit
-import AVFoundation
 
-class ViewController: UIPageViewController {
-    
-    @IBOutlet weak var imageView: UIImageView!
-    
+class PageViewController: UIPageViewController {
+        
     private(set) lazy var orderedViewControllers: [UIViewController] = {
         return [self.newViewController(name: "camera"), self.newViewController(name: "feed")]
     }()
 
     private func newViewController(name: String) -> UIViewController {
         return UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "\(name)ViewController")
+        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
         dataSource = self
         
         if let firstViewController = orderedViewControllers.first {
             setViewControllers([firstViewController], direction: .forward, animated: true, completion: nil)
         }
     }
-    
-    @IBAction func cameraTapped(_ sender: UIButton) {
-        
-    }
-    
-    @IBAction func storageTapped(_ sender: UIButton) {
-    }
-    
-    @IBAction func postTapped(_ sender: UIButton) {
-    }
-    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -60,9 +48,15 @@ class ViewController: UIPageViewController {
 
 }
 
+// MARK: UINavigationControllerDelegate
+
+extension PageViewController: UINavigationControllerDelegate {
+    
+}
+
 // MARK: UIPageViewControllerDataSource
 
-extension ViewController: UIPageViewControllerDataSource {
+extension PageViewController: UIPageViewControllerDataSource {
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         
         guard let viewControllerIndex = orderedViewControllers.index(of: viewController) else {
@@ -103,11 +97,5 @@ extension ViewController: UIPageViewControllerDataSource {
         }
         
         return orderedViewControllers[nextIndex]
-    }
-}
-
-extension ViewController: AVCapturePhotoCaptureDelegate {
-    func capture(_ captureOutput: AVCapturePhotoOutput, didCapturePhotoForResolvedSettings resolvedSettings: AVCaptureResolvedPhotoSettings) {
-//        self.capturedImageView.image = capture
     }
 }
