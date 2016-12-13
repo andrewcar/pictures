@@ -73,6 +73,19 @@ class CameraViewController: UIViewController {
         
         // capture photo
         cameraOutput?.capturePhoto(with: settings, delegate: self)
+        
+        flashEffectFullScreen()
+    }
+    
+    private func flashEffectFullScreen() {
+        
+        captureImageView.backgroundColor = UIColor.white
+        
+        UIView.animate(withDuration: 0.8, delay: 0, options: .curveEaseOut, animations: {
+            
+            self.captureImageView.backgroundColor = UIColor.clear
+        }) { finished in
+        }
     }
 }
 
