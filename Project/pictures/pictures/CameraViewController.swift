@@ -12,6 +12,7 @@ import AVFoundation
 class CameraViewController: UIViewController {
     
     @IBOutlet weak var previewView: UIView!
+    @IBOutlet weak var flashView: UIView!
     @IBOutlet weak var captureImageView: UIImageView!
     var session: AVCaptureSession?
     var cameraOutput: AVCapturePhotoOutput?
@@ -77,13 +78,18 @@ class CameraViewController: UIViewController {
         flashEffectFullScreen()
     }
     
+    @IBAction func cancalButtonTapped(_ sender: UIButton) {
+        self.captureImageView.isHidden = true
+    }
+    
     private func flashEffectFullScreen() {
         
-        captureImageView.backgroundColor = UIColor.white
+        // set flash view to white
+        flashView.backgroundColor = UIColor.white
         
+        // animate it back to clear
         UIView.animate(withDuration: 0.8, delay: 0, options: .curveEaseOut, animations: {
-            
-            self.captureImageView.backgroundColor = UIColor.clear
+            self.flashView.backgroundColor = UIColor.clear
         }) { finished in
         }
     }
@@ -113,6 +119,7 @@ extension CameraViewController: AVCapturePhotoCaptureDelegate {
         // set the processed photo to the capture image view
         if let sampleBuffer = photoSampleBuffer, let previewBuffer = previewPhotoSampleBuffer, let dataImage = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: sampleBuffer, previewPhotoSampleBuffer: previewBuffer) {
             
+            captureImageView.isHidden = false
             captureImageView.image = UIImage(data: dataImage)
         }
     }
