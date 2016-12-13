@@ -16,7 +16,6 @@ class PageViewController: UIPageViewController {
 
     private func newViewController(name: String) -> UIViewController {
         return UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "\(name)ViewController")
-        
     }
     
     override func viewDidLoad() {
@@ -32,13 +31,12 @@ class PageViewController: UIPageViewController {
 
 // MARK: UINavigationControllerDelegate
 
-extension PageViewController: UINavigationControllerDelegate {
-    
-}
+extension PageViewController: UINavigationControllerDelegate {}
 
 // MARK: UIPageViewControllerDataSource
 
 extension PageViewController: UIPageViewControllerDataSource {
+    
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         
         guard let viewControllerIndex = orderedViewControllers.index(of: viewController) else {
@@ -57,7 +55,6 @@ extension PageViewController: UIPageViewControllerDataSource {
         
         return orderedViewControllers[previousIndex]
     }
-    
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         

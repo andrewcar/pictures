@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2657" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="bjF-aP-CHN">
-    <device id="retina4_7" orientation="portrait">
+    <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -20,52 +21,98 @@
         <!--Camera View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="cameraViewController" id="BYZ-38-t0r" customClass="CameraViewController" customModule="pictures" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iDi-rC-Cuo">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Iv5-Nx-3qu">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                             </imageView>
                         </subviews>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="Iv5-Nx-3qu" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="7t2-Rm-ola"/>
-                            <constraint firstItem="Iv5-Nx-3qu" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="feT-h8-hkE"/>
-                            <constraint firstAttribute="trailing" secondItem="Iv5-Nx-3qu" secondAttribute="trailing" id="mOT-fe-DTH"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Iv5-Nx-3qu" secondAttribute="bottom" id="wR4-Q5-iWn"/>
+                            <constraint firstItem="Iv5-Nx-3qu" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="-20" id="FK3-SU-8mL"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="iDi-rC-Cuo" secondAttribute="trailing" constant="-20" id="FTW-t1-Cyn"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="iDi-rC-Cuo" secondAttribute="bottom" id="PIV-zx-DrH"/>
+                            <constraint firstItem="iDi-rC-Cuo" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="-20" id="Rl0-Ub-ZRb"/>
+                            <constraint firstItem="Iv5-Nx-3qu" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="YYR-II-5yN"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Iv5-Nx-3qu" secondAttribute="bottom" id="buz-pD-m5F"/>
+                            <constraint firstItem="iDi-rC-Cuo" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="dJA-2P-nUP"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Iv5-Nx-3qu" secondAttribute="trailing" constant="-20" id="gUN-GN-hHr"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="Iv5-Nx-3qu"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="FK3-SU-8mL"/>
+                                <exclude reference="YYR-II-5yN"/>
+                                <exclude reference="gUN-GN-hHr"/>
+                                <exclude reference="FTW-t1-Cyn"/>
+                                <exclude reference="Rl0-Ub-ZRb"/>
+                                <exclude reference="dJA-2P-nUP"/>
+                                <exclude reference="PIV-zx-DrH"/>
+                                <exclude reference="buz-pD-m5F"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="Iv5-Nx-3qu"/>
+                            </mask>
+                            <mask key="constraints">
+                                <include reference="FK3-SU-8mL"/>
+                                <include reference="YYR-II-5yN"/>
+                                <include reference="gUN-GN-hHr"/>
+                                <include reference="FTW-t1-Cyn"/>
+                                <include reference="Rl0-Ub-ZRb"/>
+                                <include reference="dJA-2P-nUP"/>
+                                <include reference="PIV-zx-DrH"/>
+                                <include reference="buz-pD-m5F"/>
+                            </mask>
+                        </variation>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="c3C-p8-P8c" appends="YES" id="xCt-IB-ZKY"/>
+                        </connections>
                     </view>
                     <navigationItem key="navigationItem" id="l0r-QD-VAa"/>
                     <connections>
-                        <outlet property="imageView" destination="Iv5-Nx-3qu" id="O84-wf-XyI"/>
+                        <outlet property="captureImageView" destination="Iv5-Nx-3qu" id="ZP8-yX-HKG"/>
+                        <outlet property="previewView" destination="iDi-rC-Cuo" id="W9O-Fj-iCY"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="c3C-p8-P8c">
+                    <connections>
+                        <action selector="tapFired:" destination="BYZ-38-t0r" id="jBH-mF-dZh"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="16.800000000000001" y="823.53823088455783"/>
+            <point key="canvasLocation" x="15.942028985507248" y="823.36956521739137"/>
         </scene>
         <!--Feed View Controller-->
         <scene sceneID="4Qp-OP-TjG">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dOg-Dd-6ql" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="feedViewController" id="1gE-8E-LIw" customClass="FeedViewController" customModule="pictures" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="9Y8-9x-3Lb"/>
                         <viewControllerLayoutGuide type="bottom" id="Icd-M8-6Iw"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="EHW-EI-7cl">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.0" green="1" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dOg-Dd-6ql" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="754" y="824"/>
         </scene>

@@ -11,56 +11,96 @@ import AVFoundation
 
 class CameraViewController: UIViewController {
     
-    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var previewView: UIView!
+    @IBOutlet weak var captureImageView: UIImageView!
+    var session: AVCaptureSession?
+    var cameraOutput: AVCapturePhotoOutput?
+    var videoPreviewLayer: AVCaptureVideoPreviewLayer?
 
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
-    @IBAction func cameraTapped(_ sender: UIButton) {
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera) {
-            let imagePicker = UIImagePickerController()
-            imagePicker.delegate = self
-            imagePicker.sourceType = UIImagePickerControllerSourceType.camera
-            imagePicker.allowsEditing = false
-            present(imagePicker, animated: true, completion: nil)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // create session
+        session = AVCaptureSession()
+        
+        // create back camera input
+        let backCamera = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
+        var error: NSError?
+        var input: AVCaptureDeviceInput!
+        do {
+            input = try AVCaptureDeviceInput(device: backCamera)
+        } catch let error1 as NSError {
+            error = error1
+            input = nil
+            print(error!.localizedDescription)
+        }
+        
+        // add the input to the session
+        if error == nil && session!.canAddInput(input) {
+            session!.addInput(input)
+            
+            // create output
+            cameraOutput = AVCapturePhotoOutput()
+            
+            // set it to the preview view
+            if session!.canAddOutput(cameraOutput) {
+                session!.addOutput(cameraOutput)
+                
+                videoPreviewLayer = AVCaptureVideoPreviewLayer(session: session)
+                videoPreviewLayer!.videoGravity = AVLayerVideoGravityResizeAspect
+                videoPreviewLayer!.connection?.videoOrientation = AVCaptureVideoOrientation.portrait
+                previewView.layer.addSublayer(videoPreviewLayer!)
+                session!.startRunning()
+                videoPreviewLayer!.frame = previewView.bounds
+            }
         }
     }
     
-    @IBAction func postTapped(_ sender: UIButton) {
-        let imageData = UIImageJPEGRepresentation(imageView.image!, 0.6)
-        let compressedJPEGImage = UIImage(data: imageData!)
-        UIImageWriteToSavedPhotosAlbum(compressedJPEGImage!, nil, nil, nil)
-        saveNotice()
-    }
-    
-    func saveNotice() {
-        let alertController = UIAlertController(title: "Image Saved", message: "Your picture was successfully saved.", preferredStyle: .alert)
-        let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-        alertController.addAction(defaultAction)
-        present(alertController, animated: true, completion: nil)
+    @IBAction func tapFired(_ sender: UITapGestureRecognizer) {
+        
+        // configure photo settings
+        let settings = AVCapturePhotoSettings()
+        let previewPixelType = settings.availablePreviewPhotoPixelFormatTypes.first!
+        let previewFormat = [kCVPixelBufferPixelFormatTypeKey as String: previewPixelType,
+                             kCVPixelBufferWidthKey as String: 160,
+                             kCVPixelBufferHeightKey as String: 160]
+        settings.previewPhotoFormat = previewFormat
+        settings.isAutoStillImageStabilizationEnabled = true
+        
+        // capture photo
+        cameraOutput?.capturePhoto(with: settings, delegate: self)
     }
 }
 
 // MARK: UINavigationControllerDelegate
 
-extension CameraViewController: UINavigationControllerDelegate {
-    
-}
+extension CameraViewController: UINavigationControllerDelegate {}
 
 // MARK: UIImagePickerControllerDelegate
 
 extension CameraViewController: UIImagePickerControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        imageView.image = info[UIImagePickerControllerOriginalImage] as? UIImage
-        dismiss(animated: true, completion: nil)
-    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {}
 }
 
 // MARK: AVCapturePhotoCaptureDelegate
 
 extension CameraViewController: AVCapturePhotoCaptureDelegate {
-    func capture(_ captureOutput: AVCapturePhotoOutput, didCapturePhotoForResolvedSettings resolvedSettings: AVCaptureResolvedPhotoSettings) {
-        //        self.capturedImageView.image = capture
+    
+    func capture(_ captureOutput: AVCapturePhotoOutput, didFinishProcessingPhotoSampleBuffer photoSampleBuffer: CMSampleBuffer?, previewPhotoSampleBuffer: CMSampleBuffer?, resolvedSettings: AVCaptureResolvedPhotoSettings, bracketSettings: AVCaptureBracketedStillImageSettings?, error: Error?) {
+        
+        if let error = error {
+            print(error.localizedDescription)
+        }
+        
+        // set the processed photo to the capture image view
+        if let sampleBuffer = photoSampleBuffer, let previewBuffer = previewPhotoSampleBuffer, let dataImage = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: sampleBuffer, previewPhotoSampleBuffer: previewBuffer) {
+            
+            captureImageView.image = UIImage(data: dataImage)
+        }
     }
 }

@@ -58,13 +58,13 @@
 		490B51C81DF13D8B00A47FEE /* pictures */ = {
 			isa = PBXGroup;
 			children = (
-				490B51C91DF13D8B00A47FEE /* AppDelegate.swift */,
 				490B51DD1DF1E83000A47FEE /* PageViewController.swift */,
 				492660BD1DFD4E16004CB359 /* CameraViewController.swift */,
 				492660BF1DFD4E1E004CB359 /* FeedViewController.swift */,
 				490B51CD1DF13D8B00A47FEE /* Main.storyboard */,
-				490B51D01DF13D8B00A47FEE /* Assets.xcassets */,
 				490B51D21DF13D8B00A47FEE /* LaunchScreen.storyboard */,
+				490B51D01DF13D8B00A47FEE /* Assets.xcassets */,
+				490B51C91DF13D8B00A47FEE /* AppDelegate.swift */,
 				490B51D51DF13D8B00A47FEE /* Info.plist */,
 			);
 			path = pictures;
