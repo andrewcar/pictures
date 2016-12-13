@@ -14,12 +14,13 @@ class CameraViewController: UIViewController {
     @IBOutlet weak var previewView: UIView!
     @IBOutlet weak var flashView: UIView!
     @IBOutlet weak var captureImageView: UIImageView!
+    @IBOutlet weak var cancelButton: UIButton!
     var session: AVCaptureSession?
     var cameraOutput: AVCapturePhotoOutput?
     var videoPreviewLayer: AVCaptureVideoPreviewLayer?
 
     override func viewDidLoad() {
-        super.viewDidLoad()
+        super.viewDidLoad()        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -79,7 +80,9 @@ class CameraViewController: UIViewController {
     }
     
     @IBAction func cancalButtonTapped(_ sender: UIButton) {
-        self.captureImageView.isHidden = true
+        
+        captureImageView.isHidden = true
+        cancelButton.isHidden = true
     }
     
     private func flashEffectFullScreen() {
@@ -120,6 +123,7 @@ extension CameraViewController: AVCapturePhotoCaptureDelegate {
         if let sampleBuffer = photoSampleBuffer, let previewBuffer = previewPhotoSampleBuffer, let dataImage = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: sampleBuffer, previewPhotoSampleBuffer: previewBuffer) {
             
             captureImageView.isHidden = false
+            cancelButton.isHidden = false
             captureImageView.image = UIImage(data: dataImage)
         }
     }
