@@ -20,7 +20,9 @@ class CameraViewController: UIViewController {
     var videoPreviewLayer: AVCaptureVideoPreviewLayer?
 
     override func viewDidLoad() {
-        super.viewDidLoad()        
+        super.viewDidLoad()
+        
+        DataSource.si.cameraState = .takingPhoto
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -64,25 +66,30 @@ class CameraViewController: UIViewController {
     
     @IBAction func tapFired(_ sender: UITapGestureRecognizer) {
         
-        // configure photo settings
-        let settings = AVCapturePhotoSettings()
-        let previewPixelType = settings.availablePreviewPhotoPixelFormatTypes.first!
-        let previewFormat = [kCVPixelBufferPixelFormatTypeKey as String: previewPixelType,
-                             kCVPixelBufferWidthKey as String: 160,
-                             kCVPixelBufferHeightKey as String: 160]
-        settings.previewPhotoFormat = previewFormat
-        settings.isAutoStillImageStabilizationEnabled = true
-        
-        // capture photo
-        cameraOutput?.capturePhoto(with: settings, delegate: self)
-        
-        flashEffectFullScreen()
+        if DataSource.si.cameraState == .takingPhoto {
+            
+            // configure photo settings
+            let settings = AVCapturePhotoSettings()
+            let previewPixelType = settings.availablePreviewPhotoPixelFormatTypes.first!
+            let previewFormat = [kCVPixelBufferPixelFormatTypeKey as String: previewPixelType,
+                                 kCVPixelBufferWidthKey as String: 160,
+                                 kCVPixelBufferHeightKey as String: 160]
+            settings.previewPhotoFormat = previewFormat
+            settings.isAutoStillImageStabilizationEnabled = true
+            
+            // capture photo
+            cameraOutput?.capturePhoto(with: settings, delegate: self)
+            
+            flashEffectFullScreen()
+        }
     }
     
     @IBAction func cancalButtonTapped(_ sender: UIButton) {
         
         captureImageView.isHidden = true
         cancelButton.isHidden = true
+        
+        DataSource.si.cameraState = .takingPhoto
     }
     
     private func flashEffectFullScreen() {
@@ -125,6 +132,8 @@ extension CameraViewController: AVCapturePhotoCaptureDelegate {
             captureImageView.isHidden = false
             cancelButton.isHidden = false
             captureImageView.image = UIImage(data: dataImage)
+            
+            DataSource.si.cameraState = .tookPhoto
         }
     }
 }
