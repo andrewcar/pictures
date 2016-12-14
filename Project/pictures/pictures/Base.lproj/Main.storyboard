@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2657" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="bjF-aP-CHN">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2657" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="bjF-aP-CHN">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -91,6 +92,11 @@
                                 <exclude reference="SKl-Ru-d6g"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="PIV-zx-DrH"/>
+                                <exclude reference="buz-pD-m5F"/>
+                                <exclude reference="c95-YF-Q6y"/>
+                                <exclude reference="DlX-Eb-hiu"/>
+                                <exclude reference="ZXR-w0-3Fd"/>
                                 <exclude reference="FK3-SU-8mL"/>
                                 <exclude reference="YYR-II-5yN"/>
                                 <exclude reference="gUN-GN-hHr"/>
@@ -100,11 +106,6 @@
                                 <exclude reference="B54-GP-GDw"/>
                                 <exclude reference="Igz-Vi-A8H"/>
                                 <exclude reference="JEN-de-fxA"/>
-                                <exclude reference="DlX-Eb-hiu"/>
-                                <exclude reference="ZXR-w0-3Fd"/>
-                                <exclude reference="PIV-zx-DrH"/>
-                                <exclude reference="buz-pD-m5F"/>
-                                <exclude reference="c95-YF-Q6y"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -114,6 +115,11 @@
                                 <include reference="SKl-Ru-d6g"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="PIV-zx-DrH"/>
+                                <include reference="buz-pD-m5F"/>
+                                <include reference="c95-YF-Q6y"/>
+                                <include reference="DlX-Eb-hiu"/>
+                                <include reference="ZXR-w0-3Fd"/>
                                 <include reference="FK3-SU-8mL"/>
                                 <include reference="YYR-II-5yN"/>
                                 <include reference="gUN-GN-hHr"/>
@@ -123,11 +129,6 @@
                                 <include reference="B54-GP-GDw"/>
                                 <include reference="Igz-Vi-A8H"/>
                                 <include reference="JEN-de-fxA"/>
-                                <include reference="DlX-Eb-hiu"/>
-                                <include reference="ZXR-w0-3Fd"/>
-                                <include reference="PIV-zx-DrH"/>
-                                <include reference="buz-pD-m5F"/>
-                                <include reference="c95-YF-Q6y"/>
                             </mask>
                         </variation>
                         <connections>
