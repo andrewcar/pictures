@@ -15,6 +15,7 @@ class CameraViewController: UIViewController {
     @IBOutlet weak var flashView: UIView!
     @IBOutlet weak var captureImageView: UIImageView!
     @IBOutlet weak var cancelButton: UIButton!
+    @IBOutlet weak var shareButton: UIButton!
     var session: AVCaptureSession?
     var cameraOutput: AVCapturePhotoOutput?
     var videoPreviewLayer: AVCaptureVideoPreviewLayer?
@@ -88,6 +89,7 @@ class CameraViewController: UIViewController {
         
         captureImageView.isHidden = true
         cancelButton.isHidden = true
+        shareButton.isHidden = true
         
         DataSource.si.cameraState = .takingPhoto
     }
@@ -131,6 +133,7 @@ extension CameraViewController: AVCapturePhotoCaptureDelegate {
             
             captureImageView.isHidden = false
             cancelButton.isHidden = false
+            shareButton.isHidden = false
             captureImageView.image = UIImage(data: dataImage)
             
             DataSource.si.cameraState = .tookPhoto
