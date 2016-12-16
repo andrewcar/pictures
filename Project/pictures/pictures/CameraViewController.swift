@@ -8,14 +8,14 @@
 
 import UIKit
 import AVFoundation
+import FirebaseStorage
 
 class CameraViewController: UIViewController {
     
     @IBOutlet weak var previewView: UIView!
     @IBOutlet weak var flashView: UIView!
     @IBOutlet weak var captureImageView: UIImageView!
-    @IBOutlet weak var cancelButton: UIButton!
-    @IBOutlet weak var shareButton: UIButton!
+    @IBOutlet weak var progressView: UIProgressView!
     var session: AVCaptureSession?
     var cameraOutput: AVCapturePhotoOutput?
     var videoPreviewLayer: AVCaptureVideoPreviewLayer?
@@ -69,6 +69,8 @@ class CameraViewController: UIViewController {
         
         if DataSource.si.cameraState == .takingPhoto {
             
+            captureImageView.center = view.center
+            
             // configure photo settings
             let settings = AVCapturePhotoSettings()
             let previewPixelType = settings.availablePreviewPhotoPixelFormatTypes.first!
@@ -82,16 +84,74 @@ class CameraViewController: UIViewController {
             cameraOutput?.capturePhoto(with: settings, delegate: self)
             
             flashEffectFullScreen()
+            
+        // camera state is .tookPhoto
+        } else {
+            
+            // hide the capture image view and progress view
+            captureImageView.isHidden = true
+            progressView.isHidden = true
+            
+            DataSource.si.cameraState = .takingPhoto
         }
     }
     
-    @IBAction func cancalButtonTapped(_ sender: UIButton) {
+    @IBAction func panFired(_ sender: UIPanGestureRecognizer) {
         
-        captureImageView.isHidden = true
-        cancelButton.isHidden = true
-        shareButton.isHidden = true
+        if DataSource.si.cameraState == .tookPhoto {
+            
+            // if pan inside captureImageView
+            if captureImageView.frame.contains(sender.location(in: captureImageView)) {
+                
+                // if pan is going up
+                if sender.translation(in: view).y < 0 {
+                    
+                    // slide capture image view up
+                    UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1.5, initialSpringVelocity: 1.5, options: .curveEaseIn, animations: { 
+                        
+                        self.captureImageView.frame = CGRect(x: 0, y: self.view.frame.minY - self.captureImageView.frame.height - 50, width: self.captureImageView.frame.width , height: self.captureImageView.frame.height)
+                    }, completion: { finished in
+                        
+                        DataSource.si.cameraState = .takingPhoto
+                        
+                        self.sharePhoto()
+                    })
+                }
+            }
+        }
+    }
+    
+    func sharePhoto() {
         
-        DataSource.si.cameraState = .takingPhoto
+        // show progress view
+        progressView.isHidden = false
+
+        // get date
+        let date = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM-dd-yyyy_hh:mm:ss_a"
+        let dateResult = formatter.string(from: date)
+        
+        // save photo to firebase with date
+        let storageRef = FIRStorage.storage().reference(withPath: "pictures/\(dateResult).jpg")
+        let uploadMetadata = FIRStorageMetadata()
+        uploadMetadata.contentType = "image/jpeg"
+        let uploadTask = storageRef.put(DataSource.si.lastTakenPhotoData as! Data, metadata: uploadMetadata) { (metadata, error) in
+            if error != nil {
+                print("error saving to firebase: \(error?.localizedDescription)")
+            } else {
+                print("upload to firebase complete: \(metadata)")
+                print("download URL: \(metadata?.downloadURL())")
+                
+                // hide progress view
+                self.progressView.isHidden = true
+            }
+        }
+        uploadTask.observe(.progress) { [weak self] snapshot in
+            guard let strongSelf = self else { return }
+            guard let progress = snapshot.progress else { return }
+            strongSelf.progressView.progress = Float(progress.fractionCompleted)
+        }
     }
     
     private func flashEffectFullScreen() {
@@ -131,12 +191,16 @@ extension CameraViewController: AVCapturePhotoCaptureDelegate {
         // set the processed photo to the capture image view
         if let sampleBuffer = photoSampleBuffer, let previewBuffer = previewPhotoSampleBuffer, let dataImage = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: sampleBuffer, previewPhotoSampleBuffer: previewBuffer) {
             
-            captureImageView.isHidden = false
-            cancelButton.isHidden = false
-            shareButton.isHidden = false
+            // set the capture image view to the processed image data
             captureImageView.image = UIImage(data: dataImage)
             
+            // store the last taken photo data to be stored in firebase
+            DataSource.si.lastTakenPhotoData = dataImage as NSData?
+            
             DataSource.si.cameraState = .tookPhoto
+            
+            // show capture image view
+            captureImageView.isHidden = false
         }
     }
 }

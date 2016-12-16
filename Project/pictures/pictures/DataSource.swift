@@ -17,6 +17,7 @@ class DataSource: NSObject {
     
     static let si = DataSource()
     var cameraState: CameraState?
+    var lastTakenPhotoData: NSData?
     
     private override init() {}
 }
